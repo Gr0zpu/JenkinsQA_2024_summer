@@ -1,2 +1,4 @@
-package study.project;public class LoginTest {
+package study.project;
+
+public class LoginTest {
 }
