@@ -34,6 +34,8 @@ jobs:
       - name: Extract Jenkins data and set permission
         run: |
           tar -xzf ${{ github.workspace }}/jenkins_backup.tar.gz -C ${{ github.workspace }}/jenkins_backup
+          echo "Extracted files:"
+          ls -la ${{ github.workspace }}/jenkins_backup
           if [ -d "${{ github.workspace }}/jenkins_backup/var/jenkins_home" ]; then
           chmod -R 777 ${{ github.workspace }}/jenkins_backup/var/jenkins_home
           else
