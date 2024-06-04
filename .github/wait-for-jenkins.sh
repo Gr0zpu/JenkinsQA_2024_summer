@@ -1,18 +1,29 @@
 #!/bin/bash
 
-set -e
+# Максимальное время ожидания (в секундах)
+MAX_WAIT=300
+INTERVAL=10
+WAITED=0
 
-times=15
-while ! curl -sSL 'http://localhost:8080/login?from=%2F' 2>&1 \
-             | grep '<html' >/dev/null; do
-    echo 'Waiting for the Jenkins'
-    sleep 10
-    times=$(($times - 1))
+echo "Waiting for Jenkins to start..."
 
-    if [ $times -le 0 ]; then
-        echo 'Time out'
-        exit 1
-    fi
+while true; do
+  # Проверка доступности Jenkins
+  RESPONSE=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8080/login)
+
+  if [ "$RESPONSE" -eq "200" ]; then
+    echo "Jenkins is up and running!"
+    break
+  fi
+
+  # Проверка на превышение максимального времени ожидания
+  if [ "$WAITED" -ge "$MAX_WAIT" ]; then
+    echo "Jenkins did not start within $MAX_WAIT seconds. Exiting..."
+    exit 1
+  fi
+
+  # Ожидание перед следующей проверкой
+  echo "Waiting for Jenkins"
+  sleep $INTERVAL
+  WAITED=$((WAITED + INTERVAL))
 done
-
-echo 'The Jenkins is up'
