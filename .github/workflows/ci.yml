@@ -36,10 +36,10 @@ jobs:
           tar -xzf ${{ github.workspace }}/jenkins_backup.tar.gz -C ${{ github.workspace }}/jenkins_backup
           echo "Extracted files:"
           ls -la ${{ github.workspace }}/jenkins_backup
-          if [ -d "${{ github.workspace }}/jenkins_backup/var/jenkins_home" ]; then
-          chmod -R 777 ${{ github.workspace }}/jenkins_backup/var/jenkins_home
+          if [ -d "${{ github.workspace }}/jenkins_backup" ]; then
+          chmod -R 777 ${{ github.workspace }}/jenkins_backup
           else
-          echo "Error: Directory ${{ github.workspace }}/jenkins_backup/var/jenkins_home does not exist."
+          echo "Error: Directory ${{ github.workspace }}/jenkins_backup does not exist."
           exit 1
           fi
 
