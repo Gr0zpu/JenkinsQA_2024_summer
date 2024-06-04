@@ -49,6 +49,15 @@ jobs:
       - name: Docker start
         run: docker run --rm --detach -p 8080:8080 -v ${{ github.workspace }}/jenkins_backup/var/jenkins_home:/var/jenkins_home jenkins/jenkins:2.440.2-lts-jdk17
 
+      - name: Check Jenkins container status
+        run: |
+          docker ps -a
+          if [ "$(docker inspect -f '{{.State.Running}}' jenkins_container)" != "true" ]; then
+            echo "Jenkins container is not running. Displaying logs:"
+            docker logs jenkins_container
+            exit 1
+          fi
+
       - name: Wait for the Jenkins
         run: ./.github/wait-for-jenkins.sh
 

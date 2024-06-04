@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Максимальное время ожидания (в секундах)
-MAX_WAIT=300
+MAX_WAIT=60
 INTERVAL=10
 WAITED=0
 
