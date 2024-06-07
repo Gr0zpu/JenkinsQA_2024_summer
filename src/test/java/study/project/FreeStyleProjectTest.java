@@ -76,7 +76,7 @@ public class FreeStyleProjectTest extends BaseTest {
     public void createFreeStyleProjectWithEmptyName() {
         String errorText = new HomePage(getDriver())
                 .createNewJob()
-                .nameJob("")
+                .nameJob("1")
                 .selectFreeStyleProject().itemRequiredMessage();
 
         Assert.assertTrue(errorText.contains("This field cannot be empty, please enter a valid name"));
