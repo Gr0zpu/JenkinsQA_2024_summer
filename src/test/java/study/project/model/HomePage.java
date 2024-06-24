@@ -3,8 +3,8 @@ package study.project.model;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
 import study.project.model.base.BasePage;
+import study.project.model.base.BaseProjectPage;
 
 public class HomePage extends BasePage {
     @FindBy(linkText = "New Item")
@@ -14,7 +14,10 @@ public class HomePage extends BasePage {
     private WebElement createNewJob;
 
     @FindBy(xpath = "//td/a[@class='jenkins-table__link model-link inside']/span")
-    private WebElement getProjectname;
+    private WebElement project;
+
+    @FindBy(id = "search-box")
+    private WebElement searchBox;
 
     public HomePage(WebDriver driver) {
         super(driver);
@@ -26,7 +29,13 @@ public class HomePage extends BasePage {
     }
 
     public String getProjectName() {
-        return getProjectname.getText();
+        return project.getText();
+    }
+
+    public <T extends BaseProjectPage> T openProject (T page) {
+        project.click();
+
+        return page;
     }
 
 

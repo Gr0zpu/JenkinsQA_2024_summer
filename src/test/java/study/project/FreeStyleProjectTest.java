@@ -7,12 +7,10 @@ import study.project.model.FreeStyleProjectConfigPage;
 import study.project.model.HomePage;
 import study.project.runner.BaseTest;
 
-import java.sql.SQLOutput;
-
 import static study.project.runner.TestUtils.getUniqueName;
 
 public class FreeStyleProjectTest extends BaseTest {
-    private static final String projectName = getUniqueName("freeStyleProject");
+    private static final String FREESTYLE_PROJECT_NAME = getUniqueName("freeStyleProject");
 
     @Test
     public void openPageTest() {
@@ -26,20 +24,20 @@ public class FreeStyleProjectTest extends BaseTest {
     public void createFreeStyleProjectTest() {
         String compleateName = new HomePage(getDriver())
                 .createNewJob()
-                .nameJob(projectName)
+                .nameJob(FREESTYLE_PROJECT_NAME)
                 .selectFreeStyleProject()
                 .clickOK(new FreeStyleProjectConfigPage(getDriver()))
-                .saveProject()
+                .clickSaveButton()
                 .getProjectName();
 
-        Assert.assertEquals(compleateName, projectName);
+        Assert.assertEquals(compleateName, FREESTYLE_PROJECT_NAME);
     }
 
     @Test(dependsOnMethods = {"createFreeStyleProjectTest"})
     public void createFreeStyleProjectWithDuplicateNameTest() {
         String errorText = new HomePage(getDriver())
                 .createNewJob()
-                .nameJob(projectName)
+                .nameJob(FREESTYLE_PROJECT_NAME)
                 .selectFreeStyleProject()
                 .clickOK(new CreateitemPage(getDriver()))
                 .getErrorMessage();
@@ -51,7 +49,7 @@ public class FreeStyleProjectTest extends BaseTest {
     public void createFreeStyleProjectWithSpecialSymbol() {
         String errorText = new HomePage(getDriver())
                 .createNewJob()
-                .nameJob(projectName + "/")
+                .nameJob(FREESTYLE_PROJECT_NAME + "/")
                 .selectFreeStyleProject()
                 .clickOK(new CreateitemPage(getDriver()))
                 .getErrorMessage();
@@ -77,7 +75,8 @@ public class FreeStyleProjectTest extends BaseTest {
         String errorText = new HomePage(getDriver())
                 .createNewJob()
                 .nameJob("")
-                .selectFreeStyleProject().itemRequiredMessage();
+                .selectFreeStyleProject()
+                .itemRequiredMessage();
 
         Assert.assertTrue(errorText.contains("This field cannot be empty, please enter a valid name"));
     }
@@ -100,6 +99,6 @@ public class FreeStyleProjectTest extends BaseTest {
 
         System.out.println(dashboardProjectName);
 
-        Assert.assertTrue(dashboardProjectName.equals(projectName));
+        Assert.assertTrue(dashboardProjectName.equals(FREESTYLE_PROJECT_NAME));
     }
 }
