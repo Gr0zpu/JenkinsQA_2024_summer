@@ -15,6 +15,8 @@ import java.time.Duration;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
+import static study.project.runner.TestUtils.getUniqueName;
+
 @Listeners({FilterForTests.class, OrderForTests.class})
 public abstract class BaseTest {
 
@@ -29,6 +31,7 @@ public abstract class BaseTest {
     private WebDriverWait wait60;
 
     private OrderUtils.MethodsOrder<Method> methodsOrder;
+
 
     private void startDriver() {
         ProjectUtils.log("Browser open");
