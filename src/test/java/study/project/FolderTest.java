@@ -28,9 +28,8 @@ public class FolderTest extends BaseTest {
                 .createNewJob()
                 .nameJob(FOLDER_NAME)
                 .selectFolder()
-                .clickOK(new FolderConfigPage(getDriver()))
-                .clickSaveButton()
-                .getErrorText();
+                .clickOK(new CreateitemPage(getDriver()))
+                .getErrorMessage();
 
         Assert.assertTrue(errorText.contains("A job already exists with the name"));
     }
