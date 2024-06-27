@@ -13,13 +13,16 @@ public class NewJobPage extends BasePage {
     private WebElement inputName;
 
     @FindBy(xpath = "//*[contains(text(), 'Freestyle project')]")
-    private WebElement choiseFreeStyleProject;
+    private WebElement choiceFreeStyleProject;
 
     @FindBy(xpath = "//*[text() = 'Pipeline']")
-    private WebElement choisePipeline;
+    private WebElement choicePipeline;
 
     @FindBy(xpath = "//*[text() = 'Multi-configuration project']")
-    private WebElement choiseMultiConfigurationProject;
+    private WebElement choiceMultiConfigurationProject;
+
+    @FindBy(xpath = "//*[text() = 'Folder']")
+    private WebElement choiceFolder;
 
     @FindBy(id = "ok-button")
     private WebElement okButton;
@@ -53,17 +56,22 @@ public class NewJobPage extends BasePage {
         return this;
     }
     public NewJobPage selectFreeStyleProject() {
-        choiseFreeStyleProject.click();
+        choiceFreeStyleProject.click();
         return this;
     }
 
     public NewJobPage selectPipeline() {
-        choisePipeline.click();
+        choicePipeline.click();
         return this;
     }
 
     public NewJobPage selectMultiConfigurationProject() {
-        choiseMultiConfigurationProject.click();
+        choiceMultiConfigurationProject.click();
+        return this;
+    }
+
+    public NewJobPage selectFolder() {
+        choiceFolder.click();
         return this;
     }
 
