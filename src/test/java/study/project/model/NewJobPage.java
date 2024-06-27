@@ -7,28 +7,31 @@ import study.project.model.base.BasePage;
 
 public class NewJobPage extends BasePage {
     @FindBy(xpath = "//*[contains(text(), 'Enter an item name')]")
-    WebElement pageTitle;
+    private WebElement pageTitle;
 
     @FindBy(id = "name")
-    WebElement inputName;
+    private WebElement inputName;
 
     @FindBy(xpath = "//*[contains(text(), 'Freestyle project')]")
-    WebElement choiseFreeStyleProject;
+    private WebElement choiseFreeStyleProject;
 
     @FindBy(xpath = "//*[text() = 'Pipeline']")
-    WebElement choisePipeline;
+    private WebElement choisePipeline;
+
+    @FindBy(xpath = "//*[text() = 'Multi-configuration project']")
+    private WebElement choiseMultiConfigurationProject;
 
     @FindBy(id = "ok-button")
-    WebElement okButton;
+    private WebElement okButton;
 
     @FindBy(id = "itemname-required")
-    WebElement itemRequiredMessage;
+    private WebElement itemRequiredMessage;
 
     @FindBy(id = "jenkins-home-link")
-    WebElement goHomePage;
+    private WebElement goHomePage;
 
     @FindBy(className = "input-validation-message")
-    WebElement validateNameMessage;
+    private WebElement validateNameMessage;
 
     public NewJobPage(WebDriver driver) {
         super(driver);
@@ -56,6 +59,11 @@ public class NewJobPage extends BasePage {
 
     public NewJobPage selectPipeline() {
         choisePipeline.click();
+        return this;
+    }
+
+    public NewJobPage selectMultiConfigurationProject() {
+        choiseMultiConfigurationProject.click();
         return this;
     }
 
