@@ -90,7 +90,7 @@ public class PipelineTest extends BaseTest {
                 .headerSearch(PIPELINE_NAME, new PipelineProjectPage(getDriver()))
                 .getProjectName();
 
-        Assert.assertTrue(PIPELINE_NAME.equals(projectName));
+        Assert.assertTrue(projectName.equals(PIPELINE_NAME));
     }
 
     @Test(dependsOnMethods = {"createPipelineTest"})
@@ -106,6 +106,6 @@ public class PipelineTest extends BaseTest {
                 .openProject(new PipelineProjectPage(getDriver()))
                 .getProjectName();
 
-        Assert.assertTrue(PIPELINE_NAME.equals(pipelineName));
+        Assert.assertTrue(pipelineName.equals(PIPELINE_NAME));
     }
 }
