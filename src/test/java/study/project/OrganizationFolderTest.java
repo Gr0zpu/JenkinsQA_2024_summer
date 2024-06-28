@@ -63,7 +63,7 @@ public class OrganizationFolderTest extends BaseTest {
     public void createOrganizationFolderWithNameLonger255Symbols() {
         String errorText = new HomePage(getDriver())
                 .createNewJob()
-                .setNameJob("a".repeat(260))
+                .setNameJob("a".repeat(261))
                 .selectOrganizationFolder()
                 .clickOK(new CreateitemPage(getDriver()))
                 .getAltErrorMessage();
