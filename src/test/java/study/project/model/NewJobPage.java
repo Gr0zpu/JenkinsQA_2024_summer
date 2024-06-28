@@ -24,6 +24,9 @@ public class NewJobPage extends BasePage {
     @FindBy(xpath = "//*[text() = 'Folder']")
     private WebElement choiceFolder;
 
+    @FindBy(xpath = "//*[text() = 'Multibranch Pipeline']")
+    private WebElement choiceMultibranchPipeline;
+
     @FindBy(id = "ok-button")
     private WebElement okButton;
 
@@ -72,6 +75,11 @@ public class NewJobPage extends BasePage {
 
     public NewJobPage selectFolder() {
         choiceFolder.click();
+        return this;
+    }
+
+    public NewJobPage selectMultibranchPipeline() {
+        choiceMultibranchPipeline.click();
         return this;
     }
 
