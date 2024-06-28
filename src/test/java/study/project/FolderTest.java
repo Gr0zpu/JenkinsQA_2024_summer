@@ -14,7 +14,7 @@ public class FolderTest extends BaseTest {
     public void createFolderTest() {
         String newFolderName = new HomePage(getDriver())
                 .createNewJob()
-                .nameJob(FOLDER_NAME)
+                .setNameJob(FOLDER_NAME)
                 .selectFolder()
                 .clickOK(new FolderConfigPage(getDriver()))
                 .clickSaveButton()
@@ -26,7 +26,7 @@ public class FolderTest extends BaseTest {
     public void createFolderWithDuplicateNameTest() {
         String errorText = new HomePage(getDriver())
                 .createNewJob()
-                .nameJob(FOLDER_NAME)
+                .setNameJob(FOLDER_NAME)
                 .selectFolder()
                 .clickOK(new CreateitemPage(getDriver()))
                 .getErrorMessage();
@@ -38,7 +38,7 @@ public class FolderTest extends BaseTest {
     public void createFolderWithSpecialSymbol() {
         String errorText = new HomePage(getDriver())
                 .createNewJob()
-                .nameJob(FOLDER_NAME + "/")
+                .setNameJob(FOLDER_NAME + "/")
                 .selectFolder()
                 .clickOK(new CreateitemPage(getDriver()))
                 .getErrorMessage();
@@ -50,7 +50,7 @@ public class FolderTest extends BaseTest {
     public void createFolderWithSpacesName() {
         String errorText = new HomePage(getDriver())
                 .createNewJob()
-                .nameJob("    ")
+                .setNameJob("    ")
                 .selectFolder()
                 .clickOK(new CreateitemPage(getDriver()))
                 .getErrorMessage();
@@ -62,7 +62,7 @@ public class FolderTest extends BaseTest {
     public void createFolderWithNameLonger255Symbols() {
         String errorText = new HomePage(getDriver())
                 .createNewJob()
-                .nameJob("a".repeat(260))
+                .setNameJob("a".repeat(260))
                 .selectFolder()
                 .clickOK(new CreateitemPage(getDriver()))
                 .getAltErrorMessage();

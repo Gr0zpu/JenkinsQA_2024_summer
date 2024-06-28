@@ -14,7 +14,7 @@ public class MultibranchPipelineTest extends BaseTest {
     public void createMultibranchPipelineTest() {
         String newMultibranchPipeline = new HomePage(getDriver())
                 .createNewJob()
-                .nameJob(MULTIBRANCH_PIPELINE_NAME)
+                .setNameJob(MULTIBRANCH_PIPELINE_NAME)
                 .selectMultibranchPipeline()
                 .clickOK(new MultibranchPipelineConfigPage(getDriver()))
                 .clickSaveButton()
@@ -27,7 +27,7 @@ public class MultibranchPipelineTest extends BaseTest {
     public void createMultibranchPipelineWithDuplicateTest() {
         String errorText = new HomePage(getDriver())
                 .createNewJob()
-                .nameJob(MULTIBRANCH_PIPELINE_NAME)
+                .setNameJob(MULTIBRANCH_PIPELINE_NAME)
                 .selectMultibranchPipeline()
                 .clickOK(new CreateitemPage(getDriver()))
                 .getErrorMessage();
@@ -39,7 +39,7 @@ public class MultibranchPipelineTest extends BaseTest {
     public void createMultibranchPipelineWithSpecialSymbol() {
         String errorText = new HomePage(getDriver())
                 .createNewJob()
-                .nameJob(MULTIBRANCH_PIPELINE_NAME + "/")
+                .setNameJob(MULTIBRANCH_PIPELINE_NAME + "/")
                 .selectMultibranchPipeline()
                 .clickOK(new CreateitemPage(getDriver()))
                 .getErrorMessage();
@@ -51,7 +51,7 @@ public class MultibranchPipelineTest extends BaseTest {
     public void createMultibranchPipelineWithSpacesName() {
         String errorText = new HomePage(getDriver())
                 .createNewJob()
-                .nameJob("   ")
+                .setNameJob("   ")
                 .selectMultibranchPipeline()
                 .clickOK(new CreateitemPage(getDriver()))
                 .getErrorMessage();
@@ -63,7 +63,7 @@ public class MultibranchPipelineTest extends BaseTest {
     public void createMultibranchPipelineWithNameLonger255Symbols() {
         String errorText = new HomePage(getDriver())
                 .createNewJob()
-                .nameJob("A".repeat(260))
+                .setNameJob("A".repeat(260))
                 .selectMultibranchPipeline()
                 .clickOK(new CreateitemPage(getDriver()))
                 .getAltErrorMessage();
