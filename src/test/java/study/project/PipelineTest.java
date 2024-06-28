@@ -10,7 +10,7 @@ import static study.project.runner.TestUtils.getUniqueName;
 public class PipelineTest extends BaseTest {
     private static final String PIPELINE_NAME = getUniqueName("pipeline");
     @Test
-    public void createPipelineTest() {
+    public void testCreatePipeline() {
         String itemPipeline = new HomePage(getDriver())
                 .createNewJob()
                 .setNameJob(PIPELINE_NAME)
@@ -22,8 +22,8 @@ public class PipelineTest extends BaseTest {
         Assert.assertEquals(itemPipeline, PIPELINE_NAME);
     }
 
-    @Test(dependsOnMethods = {"createPipelineTest"})
-    public void createPipelineWithDuplicateNameTest() {
+    @Test(dependsOnMethods = {"testCreatePipeline"})
+    public void testCreatePipelineWithDuplicateName() {
         String errorText = new HomePage(getDriver())
                 .createNewJob().setNameJob(PIPELINE_NAME)
                 .selectPipeline()
@@ -34,7 +34,7 @@ public class PipelineTest extends BaseTest {
     }
 
     @Test
-    public void createPipelineWithSpecialSymbol() {
+    public void testCreatePipelineWithSpecialSymbol() {
         String errorText = new HomePage(getDriver())
                 .createNewJob()
                 .setNameJob(PIPELINE_NAME + "/")
@@ -46,7 +46,7 @@ public class PipelineTest extends BaseTest {
     }
 
     @Test
-    public void createPipelineWithSpacesName() {
+    public void testCreatePipelineWithSpacesName() {
         String errorText = new HomePage(getDriver())
                 .createNewJob()
                 .setNameJob("     ")
@@ -58,7 +58,7 @@ public class PipelineTest extends BaseTest {
     }
 
     @Test
-    public void createPipelineWithNameLonger255Symbols() {
+    public void testCreatePipelineWithNameLonger255Symbols() {
         String errorText = new HomePage(getDriver())
                 .createNewJob()
                 .setNameJob("a".repeat(260))
@@ -70,7 +70,7 @@ public class PipelineTest extends BaseTest {
     }
 
     @Test
-    public void createPipelineWithEmptyName() {
+    public void testCreatePipelineWithEmptyName() {
         NewJobPage newJobPage =  new HomePage(getDriver())
                 .createNewJob()
                 .selectPipeline();
@@ -84,8 +84,8 @@ public class PipelineTest extends BaseTest {
 
     }
 
-    @Test(dependsOnMethods = {"createPipelineTest"})
-    public void checkPipelineBySearch() {
+    @Test(dependsOnMethods = {"testCreatePipeline"})
+    public void testCheckPipelineBySearch() {
         String projectName = new HomePage(getDriver())
                 .headerSearch(PIPELINE_NAME, new PipelineProjectPage(getDriver()))
                 .getProjectName();
@@ -93,19 +93,34 @@ public class PipelineTest extends BaseTest {
         Assert.assertTrue(projectName.equals(PIPELINE_NAME));
     }
 
-    @Test(dependsOnMethods = {"createPipelineTest"})
-    public void checkNewPipelineOnDashBoard() {
+    @Test(dependsOnMethods = {"testCreatePipeline"})
+    public void testCheckNewPipelineOnDashBoard() {
         String dashboardPipelineName = new HomePage(getDriver()).getProjectName();
 
         Assert.assertTrue(dashboardPipelineName.equals(PIPELINE_NAME));
     }
 
-    @Test(dependsOnMethods = {"createPipelineTest"})
-    public void checkRedirectFromDashboard() {
+    @Test(dependsOnMethods = {"testCreatePipeline"})
+    public void testCheckRedirectFromDashboard() {
         String pipelineName = new HomePage(getDriver())
                 .openProject(new PipelineProjectPage(getDriver()))
                 .getProjectName();
 
         Assert.assertTrue(pipelineName.equals(PIPELINE_NAME));
+    }
+
+    @Test(dependsOnMethods = {"testCreatePipeline"})
+    public void testCreatePipelineProjectFromOtherExisting() {
+        String newPipelineName = getUniqueName(PIPELINE_NAME);
+
+        String pipelineName = new HomePage(getDriver())
+                .createNewJob()
+                .setNameJob(newPipelineName)
+                .setFromExisting(PIPELINE_NAME)
+                .clickOK(new PipelineConfigPage(getDriver()))
+                .clickSaveButton()
+                .getProjectName();
+
+        Assert.assertTrue(newPipelineName.equals(pipelineName));
     }
 }

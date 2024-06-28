@@ -30,6 +30,9 @@ public class NewJobPage extends BasePage {
     @FindBy(xpath = "//*[text() = 'Organization Folder']")
     private WebElement choiceOrganizationFolder;
 
+    @FindBy(id = "from")
+    private WebElement inputFromExisting;
+
     @FindBy(id = "ok-button")
     private WebElement okButton;
 
@@ -88,6 +91,11 @@ public class NewJobPage extends BasePage {
 
     public NewJobPage selectOrganizationFolder() {
         choiceOrganizationFolder.click();
+        return this;
+    }
+
+    public NewJobPage setFromExisting(String existingName) {
+        inputFromExisting.sendKeys(existingName);
         return this;
     }
 

@@ -11,7 +11,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
     private static final String MULTI_CONFIGURATION_PROJECT_NAME =  getUniqueName("multiConfigurationProject");
 
     @Test
-    public void createMultiConfigurationProjectTest() {
+    public void testCreateMultiConfigurationProject() {
         String itemMultiConfigurationProject = new HomePage(getDriver())
                 .createNewJob()
                 .setNameJob(MULTI_CONFIGURATION_PROJECT_NAME)
@@ -23,8 +23,8 @@ public class MultiConfigurationProjectTest extends BaseTest {
         Assert.assertTrue(itemMultiConfigurationProject.contains(MULTI_CONFIGURATION_PROJECT_NAME));
     }
 
-    @Test(dependsOnMethods = {"createMultiConfigurationProjectTest"})
-    public void createMultiConfigurationProjectWithDuplicateNameTest() {
+    @Test(dependsOnMethods = {"testCreateMultiConfigurationProject"})
+    public void testCreateMultiConfigurationProjectWithDuplicateName() {
         String errorText = new HomePage(getDriver())
                 .createNewJob()
                 .setNameJob(MULTI_CONFIGURATION_PROJECT_NAME)
@@ -36,7 +36,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
     }
 
     @Test
-    public void createMultiConfigurationProjectWithSpecialSymbolTest() {
+    public void testCreateMultiConfigurationProjectWithSpecialSymbol() {
         String errorText = new HomePage(getDriver())
                 .createNewJob()
                 .setNameJob(MULTI_CONFIGURATION_PROJECT_NAME + "/")
@@ -48,7 +48,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
     }
 
     @Test
-    public void createMultiConfigurationProjectWithSpacesNameTest() {
+    public void testCreateMultiConfigurationProjectWithSpacesName() {
         String errorText = new HomePage(getDriver())
                 .createNewJob()
                 .setNameJob("    ")
@@ -60,7 +60,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
     }
 
     @Test
-    public void createMultiConfigurationProjectWithNameLonger255SymbolsTest() {
+    public void testCreateMultiConfigurationProjectWithNameLonger255Symbols() {
         String errorText = new HomePage(getDriver())
                 .createNewJob()
                 .setNameJob("a".repeat(260))
@@ -72,7 +72,7 @@ public class MultiConfigurationProjectTest extends BaseTest {
     }
 
     @Test
-    public void createMultiConfigurationProjectWithEmptyNameTest() {
+    public void testCreateMultiConfigurationProjectWithEmptyName() {
         NewJobPage newJobPage = new HomePage((getDriver()))
                 .createNewJob()
                 .selectMultiConfigurationProject();
@@ -84,8 +84,8 @@ public class MultiConfigurationProjectTest extends BaseTest {
         Assert.assertTrue(okButtonStatus);
     }
 
-    @Test(dependsOnMethods = {"createMultiConfigurationProjectTest"})
-    public void checkMultiConfigurationProjectBySearchTest() {
+    @Test(dependsOnMethods = {"testCreateMultiConfigurationProject"})
+    public void testCheckMultiConfigurationProjectBySearch() {
         String projectName = new HomePage(getDriver())
                 .headerSearch(MULTI_CONFIGURATION_PROJECT_NAME, new MultiConfigurationProjectPage(getDriver()))
                 .getProjectName();
@@ -93,16 +93,16 @@ public class MultiConfigurationProjectTest extends BaseTest {
         Assert.assertTrue(projectName.equals("Project " + MULTI_CONFIGURATION_PROJECT_NAME));
     }
 
-    @Test(dependsOnMethods = {"createMultiConfigurationProjectTest"})
-    public void checkMultiConfigurationProjectOnDashBoardTest() {
+    @Test(dependsOnMethods = {"testCreateMultiConfigurationProject"})
+    public void testCheckMultiConfigurationProjectOnDashBoard() {
         String multiConfigurationProjectName = new HomePage(getDriver())
                 .getProjectName();
 
         Assert.assertTrue(multiConfigurationProjectName.equals(MULTI_CONFIGURATION_PROJECT_NAME));
     }
 
-    @Test(dependsOnMethods = {"createMultiConfigurationProjectTest"})
-    public void checkRedirectFromDashboardTest() {
+    @Test(dependsOnMethods = {"testCreateMultiConfigurationProject"})
+    public void testCheckRedirectFromDashboard() {
         String multiConfigurationProjectName = new HomePage(getDriver())
                 .openProject(new MultiConfigurationProjectPage(getDriver()))
                 .getProjectName();
@@ -110,4 +110,18 @@ public class MultiConfigurationProjectTest extends BaseTest {
         Assert.assertTrue(multiConfigurationProjectName.equals("Project " + MULTI_CONFIGURATION_PROJECT_NAME));
     }
 
+    @Test(dependsOnMethods = {"testCreateMultiConfigurationProject"})
+    public void testCreateMultiConfigurationProjectFromOtherExisting() {
+        String newMultiConfigurationProjectName = getUniqueName(MULTI_CONFIGURATION_PROJECT_NAME);
+
+        String multiConfigurationProjectName = new HomePage(getDriver())
+                .createNewJob()
+                .setNameJob(newMultiConfigurationProjectName)
+                .setFromExisting(MULTI_CONFIGURATION_PROJECT_NAME)
+                .clickOK(new MultiConfigurationProjectConfigPage(getDriver()))
+                .clickSaveButton()
+                .getProjectName();
+
+        Assert.assertTrue(multiConfigurationProjectName.equals("Project " + newMultiConfigurationProjectName));
+    }
 }

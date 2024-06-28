@@ -11,7 +11,7 @@ public class FolderTest extends BaseTest {
     private static final String FOLDER_NAME = getUniqueName("newFolder");
 
     @Test
-    public void createFolderTest() {
+    public void testCreateFolderTest() {
         String newFolderName = new HomePage(getDriver())
                 .createNewJob()
                 .setNameJob(FOLDER_NAME)
@@ -22,8 +22,8 @@ public class FolderTest extends BaseTest {
         Assert.assertEquals(newFolderName, FOLDER_NAME);
     }
 
-    @Test(dependsOnMethods = {"createFolderTest"})
-    public void createFolderWithDuplicateNameTest() {
+    @Test(dependsOnMethods = {"testCreateFolderTest"})
+    public void testCreateFolderWithDuplicateName() {
         String errorText = new HomePage(getDriver())
                 .createNewJob()
                 .setNameJob(FOLDER_NAME)
@@ -35,7 +35,7 @@ public class FolderTest extends BaseTest {
     }
 
     @Test
-    public void createFolderWithSpecialSymbol() {
+    public void testCreateFolderWithSpecialSymbol() {
         String errorText = new HomePage(getDriver())
                 .createNewJob()
                 .setNameJob(FOLDER_NAME + "/")
@@ -47,7 +47,7 @@ public class FolderTest extends BaseTest {
     }
 
     @Test
-    public void createFolderWithSpacesName() {
+    public void testCreateFolderWithSpacesName() {
         String errorText = new HomePage(getDriver())
                 .createNewJob()
                 .setNameJob("    ")
@@ -59,7 +59,7 @@ public class FolderTest extends BaseTest {
     }
 
     @Test
-    public void createFolderWithNameLonger255Symbols() {
+    public void testCreateFolderWithNameLonger255Symbols() {
         String errorText = new HomePage(getDriver())
                 .createNewJob()
                 .setNameJob("a".repeat(260))
@@ -71,7 +71,7 @@ public class FolderTest extends BaseTest {
     }
 
     @Test
-    public void createFolderWithEmptyName() {
+    public void testCreateFolderWithEmptyName() {
         NewJobPage newFolder = new HomePage(getDriver())
                 .createNewJob()
                 .selectPipeline();
@@ -84,8 +84,8 @@ public class FolderTest extends BaseTest {
         Assert.assertTrue(okButtonStatus);
     }
 
-    @Test(dependsOnMethods = {"createFolderTest"})
-    public void checkFolderBySearch() {
+    @Test(dependsOnMethods = {"testCreateFolderTest"})
+    public void testCheckFolderBySearch() {
         String folderName = new HomePage(getDriver())
                 .headerSearch(FOLDER_NAME, new FolderProjectPage(getDriver()))
                 .getProjectName();
@@ -93,19 +93,34 @@ public class FolderTest extends BaseTest {
         Assert.assertTrue(folderName.equals(FOLDER_NAME));
     }
 
-    @Test(dependsOnMethods = {"createFolderTest"})
-    public void checkNewFolderOnDashboard() {
+    @Test(dependsOnMethods = {"testCreateFolderTest"})
+    public void testCheckNewFolderOnDashboard() {
         String dashboardFolderName = new HomePage(getDriver()).getProjectName();
 
         Assert.assertTrue(dashboardFolderName.equals(FOLDER_NAME));
     }
 
-    @Test(dependsOnMethods = {"createFolderTest"})
-    public void checkRedirectFromDashboard() {
+    @Test(dependsOnMethods = {"testCreateFolderTest"})
+    public void testCheckRedirectFromDashboard() {
         String folderName = new HomePage(getDriver())
                 .openProject(new FolderProjectPage(getDriver()))
                 .getProjectName();
 
         Assert.assertTrue(FOLDER_NAME.equals(folderName));
+    }
+
+    @Test(dependsOnMethods = {"testCreateFolderTest"})
+    public void testCreateFolderFromOtherExisting() {
+        String newFolderName = getUniqueName(FOLDER_NAME);
+
+        String folderName = new HomePage(getDriver())
+                .createNewJob()
+                .setNameJob(newFolderName)
+                .setFromExisting(FOLDER_NAME)
+                .clickOK(new FolderConfigPage(getDriver()))
+                .clickSaveButton()
+                .getProjectName();
+
+        Assert.assertTrue(newFolderName.equals(folderName));
     }
 }
