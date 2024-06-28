@@ -13,7 +13,7 @@ public class PipelineTest extends BaseTest {
     public void createPipelineTest() {
         String itemPipeline = new HomePage(getDriver())
                 .createNewJob()
-                .nameJob(PIPELINE_NAME)
+                .setNameJob(PIPELINE_NAME)
                 .selectPipeline()
                 .clickOK(new PipelineConfigPage(getDriver()))
                 .clickSaveButton()
@@ -25,7 +25,7 @@ public class PipelineTest extends BaseTest {
     @Test(dependsOnMethods = {"createPipelineTest"})
     public void createPipelineWithDuplicateNameTest() {
         String errorText = new HomePage(getDriver())
-                .createNewJob().nameJob(PIPELINE_NAME)
+                .createNewJob().setNameJob(PIPELINE_NAME)
                 .selectPipeline()
                 .clickOK(new CreateitemPage(getDriver()))
                 .getErrorMessage();
@@ -37,7 +37,7 @@ public class PipelineTest extends BaseTest {
     public void createPipelineWithSpecialSymbol() {
         String errorText = new HomePage(getDriver())
                 .createNewJob()
-                .nameJob(PIPELINE_NAME + "/")
+                .setNameJob(PIPELINE_NAME + "/")
                 .selectPipeline()
                 .clickOK(new CreateitemPage(getDriver()))
                 .getErrorMessage();
@@ -49,7 +49,7 @@ public class PipelineTest extends BaseTest {
     public void createPipelineWithSpacesName() {
         String errorText = new HomePage(getDriver())
                 .createNewJob()
-                .nameJob("     ")
+                .setNameJob("     ")
                 .selectPipeline()
                 .clickOK(new CreateitemPage(getDriver()))
                 .getErrorMessage();
@@ -61,7 +61,7 @@ public class PipelineTest extends BaseTest {
     public void createPipelineWithNameLonger255Symbols() {
         String errorText = new HomePage(getDriver())
                 .createNewJob()
-                .nameJob("a".repeat(260))
+                .setNameJob("a".repeat(260))
                 .selectPipeline()
                 .clickOK(new CreateitemPage(getDriver()))
                 .getAltErrorMessage();

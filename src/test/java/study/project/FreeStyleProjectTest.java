@@ -24,7 +24,7 @@ public class FreeStyleProjectTest extends BaseTest {
     public void createFreeStyleProjectTest() {
         String compleateName = new HomePage(getDriver())
                 .createNewJob()
-                .nameJob(FREESTYLE_PROJECT_NAME)
+                .setNameJob(FREESTYLE_PROJECT_NAME)
                 .selectFreeStyleProject()
                 .clickOK(new FreeStyleProjectConfigPage(getDriver()))
                 .clickSaveButton()
@@ -37,7 +37,7 @@ public class FreeStyleProjectTest extends BaseTest {
     public void createFreeStyleProjectWithDuplicateNameTest() {
         String errorText = new HomePage(getDriver())
                 .createNewJob()
-                .nameJob(FREESTYLE_PROJECT_NAME)
+                .setNameJob(FREESTYLE_PROJECT_NAME)
                 .selectFreeStyleProject()
                 .clickOK(new CreateitemPage(getDriver()))
                 .getErrorMessage();
@@ -49,7 +49,7 @@ public class FreeStyleProjectTest extends BaseTest {
     public void createFreeStyleProjectWithSpecialSymbol() {
         String errorText = new HomePage(getDriver())
                 .createNewJob()
-                .nameJob(FREESTYLE_PROJECT_NAME + "/")
+                .setNameJob(FREESTYLE_PROJECT_NAME + "/")
                 .selectFreeStyleProject()
                 .clickOK(new CreateitemPage(getDriver()))
                 .getErrorMessage();
@@ -62,7 +62,7 @@ public class FreeStyleProjectTest extends BaseTest {
     public void createFreeStyleProjectWithSpacesName() {
         String errorText = new HomePage(getDriver())
                 .createNewJob()
-                .nameJob("     ")
+                .setNameJob("     ")
                 .selectFreeStyleProject()
                 .clickOK(new CreateitemPage(getDriver()))
                 .getErrorMessage();
@@ -74,7 +74,7 @@ public class FreeStyleProjectTest extends BaseTest {
     public void createFreeStyleProjectWithEmptyName() {
         String errorText = new HomePage(getDriver())
                 .createNewJob()
-                .nameJob("")
+                .setNameJob("")
                 .selectFreeStyleProject()
                 .itemRequiredMessage();
 
@@ -85,7 +85,7 @@ public class FreeStyleProjectTest extends BaseTest {
     public void createFreeStyleProjectWithNameLonger255Symbols() {
         String errorText = new HomePage(getDriver())
                 .createNewJob()
-                .nameJob("a".repeat(260))
+                .setNameJob("a".repeat(260))
                 .selectFreeStyleProject()
                 .clickOK(new CreateitemPage(getDriver()))
                 .getAltErrorMessage();
