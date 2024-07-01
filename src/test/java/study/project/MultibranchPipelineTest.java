@@ -11,7 +11,7 @@ public class MultibranchPipelineTest extends BaseTest {
     private static final String MULTIBRANCH_PIPELINE_NAME = getUniqueName("newMultibranchPipeline");
 
     @Test
-    public void createMultibranchPipelineTest() {
+    public void testCreateMultibranchPipeline() {
         String newMultibranchPipeline = new HomePage(getDriver())
                 .createNewJob()
                 .setNameJob(MULTIBRANCH_PIPELINE_NAME)
@@ -23,8 +23,8 @@ public class MultibranchPipelineTest extends BaseTest {
         Assert.assertEquals(newMultibranchPipeline, MULTIBRANCH_PIPELINE_NAME);
     }
 
-    @Test(dependsOnMethods = {"createMultibranchPipelineTest"})
-    public void createMultibranchPipelineWithDuplicateTest() {
+    @Test(dependsOnMethods = {"testCreateMultibranchPipeline"})
+    public void testCreateMultibranchPipelineWithDuplicate() {
         String errorText = new HomePage(getDriver())
                 .createNewJob()
                 .setNameJob(MULTIBRANCH_PIPELINE_NAME)
@@ -36,7 +36,7 @@ public class MultibranchPipelineTest extends BaseTest {
     }
 
     @Test
-    public void createMultibranchPipelineWithSpecialSymbol() {
+    public void testCreateMultibranchPipelineWithSpecialSymbol() {
         String errorText = new HomePage(getDriver())
                 .createNewJob()
                 .setNameJob(MULTIBRANCH_PIPELINE_NAME + "/")
@@ -48,7 +48,7 @@ public class MultibranchPipelineTest extends BaseTest {
     }
 
     @Test
-    public void createMultibranchPipelineWithSpacesName() {
+    public void testCreateMultibranchPipelineWithSpacesName() {
         String errorText = new HomePage(getDriver())
                 .createNewJob()
                 .setNameJob("   ")
@@ -60,7 +60,7 @@ public class MultibranchPipelineTest extends BaseTest {
     }
 
     @Test
-    public void createMultibranchPipelineWithNameLonger255Symbols() {
+    public void testCreateMultibranchPipelineWithNameLonger255Symbols() {
         String errorText = new HomePage(getDriver())
                 .createNewJob()
                 .setNameJob("A".repeat(260))
@@ -72,7 +72,7 @@ public class MultibranchPipelineTest extends BaseTest {
     }
 
     @Test
-    public void createMultibranchPipelineWithEmptyName() {
+    public void testCreateMultibranchPipelineWithEmptyName() {
         NewJobPage newJobPage = new HomePage(getDriver())
                 .createNewJob()
                 .selectMultibranchPipeline();
@@ -85,8 +85,8 @@ public class MultibranchPipelineTest extends BaseTest {
         Assert.assertTrue(okButtonStatus);
     }
 
-    @Test(dependsOnMethods = {"createMultibranchPipelineTest"})
-    public void checkMultibranchPipelineBySearch() {
+    @Test(dependsOnMethods = {"testCreateMultibranchPipeline"})
+    public void testCheckMultibranchPipelineBySearch() {
         String projectName = new HomePage(getDriver())
                 .headerSearch(MULTIBRANCH_PIPELINE_NAME, new MultiConfigurationProjectPage(getDriver()))
                 .getProjectName();
@@ -94,19 +94,34 @@ public class MultibranchPipelineTest extends BaseTest {
         Assert.assertTrue(projectName.equals(MULTIBRANCH_PIPELINE_NAME));
     }
     
-    @Test(dependsOnMethods = {"createMultibranchPipelineTest"})
-    public void checkMultibranchPipelineOnDashboard() {
+    @Test(dependsOnMethods = {"testCreateMultibranchPipeline"})
+    public void testCheckMultibranchPipelineOnDashboard() {
         String dashboardMultibranchPipelineName = new HomePage(getDriver()).getProjectName();
 
         Assert.assertTrue(dashboardMultibranchPipelineName.equals(MULTIBRANCH_PIPELINE_NAME));
     }
 
-    @Test(dependsOnMethods = {"createMultibranchPipelineTest"})
-    public void CheckRedirectFromDashboard() {
+    @Test(dependsOnMethods = {"testCreateMultibranchPipeline"})
+    public void testCheckRedirectFromDashboard() {
         String multibranchPipelineName = new HomePage(getDriver())
                 .openProject(new MultibranchPipelineProjectPage(getDriver()))
                 .getProjectName();
 
         Assert.assertTrue(multibranchPipelineName.equals(MULTIBRANCH_PIPELINE_NAME));
+    }
+
+    @Test(dependsOnMethods = {"testCreateMultibranchPipeline"})
+    public void testCreateMultibranchPipelineFromOtherExisting() {
+        String newMultibranchPipelineName = getUniqueName(MULTIBRANCH_PIPELINE_NAME);
+
+        String multibranchPipelineName = new HomePage(getDriver())
+                .createNewJob()
+                .setNameJob(newMultibranchPipelineName)
+                .setFromExisting(MULTIBRANCH_PIPELINE_NAME)
+                .clickOK(new MultibranchPipelineConfigPage(getDriver()))
+                .clickSaveButton()
+                .getProjectName();
+
+        Assert.assertTrue(newMultibranchPipelineName.equals(multibranchPipelineName));
     }
 }

@@ -13,7 +13,7 @@ public class FreeStyleProjectTest extends BaseTest {
     private static final String FREESTYLE_PROJECT_NAME = getUniqueName("freeStyleProject");
 
     @Test
-    public void openPageTest() {
+    public void testOpenPage() {
         String pageTitle = new HomePage(getDriver()).createNewJob().getPageTitle();
         System.out.println(pageTitle);
 
@@ -21,7 +21,7 @@ public class FreeStyleProjectTest extends BaseTest {
     }
 
     @Test
-    public void createFreeStyleProjectTest() {
+    public void testCreateFreeStyleProject() {
         String compleateName = new HomePage(getDriver())
                 .createNewJob()
                 .setNameJob(FREESTYLE_PROJECT_NAME)
@@ -33,8 +33,8 @@ public class FreeStyleProjectTest extends BaseTest {
         Assert.assertEquals(compleateName, FREESTYLE_PROJECT_NAME);
     }
 
-    @Test(dependsOnMethods = {"createFreeStyleProjectTest"})
-    public void createFreeStyleProjectWithDuplicateNameTest() {
+    @Test(dependsOnMethods = {"testCreateFreeStyleProject"})
+    public void testCreateFreeStyleProjectWithDuplicateName() {
         String errorText = new HomePage(getDriver())
                 .createNewJob()
                 .setNameJob(FREESTYLE_PROJECT_NAME)
@@ -46,7 +46,7 @@ public class FreeStyleProjectTest extends BaseTest {
     }
 
     @Test
-    public void createFreeStyleProjectWithSpecialSymbol() {
+    public void testCreateFreeStyleProjectWithSpecialSymbol() {
         String errorText = new HomePage(getDriver())
                 .createNewJob()
                 .setNameJob(FREESTYLE_PROJECT_NAME + "/")
@@ -59,7 +59,7 @@ public class FreeStyleProjectTest extends BaseTest {
     }
 
     @Test
-    public void createFreeStyleProjectWithSpacesName() {
+    public void testCreateFreeStyleProjectWithSpacesName() {
         String errorText = new HomePage(getDriver())
                 .createNewJob()
                 .setNameJob("     ")
@@ -71,7 +71,7 @@ public class FreeStyleProjectTest extends BaseTest {
     }
 
     @Test
-    public void createFreeStyleProjectWithEmptyName() {
+    public void testCreateFreeStyleProjectWithEmptyName() {
         String errorText = new HomePage(getDriver())
                 .createNewJob()
                 .setNameJob("")
@@ -82,7 +82,7 @@ public class FreeStyleProjectTest extends BaseTest {
     }
 
     @Test
-    public void createFreeStyleProjectWithNameLonger255Symbols() {
+    public void testCreateFreeStyleProjectWithNameLonger255Symbols() {
         String errorText = new HomePage(getDriver())
                 .createNewJob()
                 .setNameJob("a".repeat(260))
@@ -93,12 +93,27 @@ public class FreeStyleProjectTest extends BaseTest {
         Assert.assertTrue(errorText.contains("A problem occurred while processing the request"));
     }
 
-    @Test(dependsOnMethods = {"createFreeStyleProjectTest"})
-    public void checkNewFreeStyleProjectOnDashBoard() {
+    @Test(dependsOnMethods = {"testCreateFreeStyleProject"})
+    public void testCheckNewFreeStyleProjectOnDashBoard() {
         String dashboardProjectName = new HomePage(getDriver()).getProjectName();
 
         System.out.println(dashboardProjectName);
 
         Assert.assertTrue(dashboardProjectName.equals(FREESTYLE_PROJECT_NAME));
+    }
+
+    @Test(dependsOnMethods = {"testCreateFreeStyleProject"})
+    public void testCreateFreeStyleProjectFromOtherExisting() {
+        String newFreeStyleProjectName = getUniqueName(FREESTYLE_PROJECT_NAME);
+
+        String freeStyleProjectName = new HomePage(getDriver())
+                .createNewJob()
+                .setNameJob(newFreeStyleProjectName)
+                .setFromExisting(FREESTYLE_PROJECT_NAME)
+                .clickOK(new FreeStyleProjectConfigPage(getDriver()))
+                .clickSaveButton()
+                .getProjectName();
+
+        Assert.assertTrue(newFreeStyleProjectName.equals(freeStyleProjectName));
     }
 }

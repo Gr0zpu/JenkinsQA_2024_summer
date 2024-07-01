@@ -11,7 +11,7 @@ public class OrganizationFolderTest extends BaseTest {
     private static final String ORGANIZATION_FOLDER_NAME = getUniqueName("organizationFolder");
 
     @Test
-    public void createOrganizationFolderTest() {
+    public void testCreateOrganizationFolder() {
         String organizationFolderName = new HomePage(getDriver())
                 .createNewJob()
                 .setNameJob(ORGANIZATION_FOLDER_NAME)
@@ -23,8 +23,8 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertTrue(organizationFolderName.equals(ORGANIZATION_FOLDER_NAME));
     }
 
-    @Test(dependsOnMethods = {"createOrganizationFolderTest"})
-    public void createOrganizationFolderWithDuplicateNameTest() {
+    @Test(dependsOnMethods = {"testCreateOrganizationFolder"})
+    public void testCreateOrganizationFolderWithDuplicateName() {
         String errorText = new HomePage(getDriver())
                 .createNewJob()
                 .setNameJob(ORGANIZATION_FOLDER_NAME)
@@ -36,7 +36,7 @@ public class OrganizationFolderTest extends BaseTest {
     }
 
     @Test
-    public void createOrganizationFolderWithSpecialSymbolTest() {
+    public void testCreateOrganizationFolderWithSpecialSymbol() {
         String errorText = new HomePage(getDriver())
                 .createNewJob()
                 .setNameJob(ORGANIZATION_FOLDER_NAME + "/")
@@ -48,7 +48,7 @@ public class OrganizationFolderTest extends BaseTest {
     }
 
     @Test
-    public void createOrganizationFolderWithSpacesNameTest() {
+    public void testCreateOrganizationFolderWithSpacesName() {
         String errorText = new HomePage(getDriver())
                 .createNewJob()
                 .setNameJob("    ")
@@ -60,7 +60,7 @@ public class OrganizationFolderTest extends BaseTest {
     }
 
     @Test
-    public void createOrganizationFolderWithNameLonger255Symbols() {
+    public void testCreateOrganizationFolderWithNameLonger255Symbols() {
         String errorText = new HomePage(getDriver())
                 .createNewJob()
                 .setNameJob("a".repeat(261))
@@ -72,7 +72,7 @@ public class OrganizationFolderTest extends BaseTest {
     }
 
     @Test
-    public void createOrganizationFolderWithEmptyNameTest() {
+    public void testCreateOrganizationFolderWithEmptyName() {
         NewJobPage newJobPage = new HomePage(getDriver())
                 .createNewJob()
                 .selectOrganizationFolder();
@@ -84,8 +84,8 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertTrue(okButtonStatus);
     }
 
-    @Test(dependsOnMethods = {"createOrganizationFolderTest"})
-    public void checkBySearchTest() {
+    @Test(dependsOnMethods = {"testCreateOrganizationFolder"})
+    public void testCheckBySearch() {
         String organizationFolderName = new HomePage(getDriver())
                 .headerSearch(ORGANIZATION_FOLDER_NAME, new OrganizationFolderProjectPage(getDriver()))
                 .getProjectName();
@@ -93,19 +93,35 @@ public class OrganizationFolderTest extends BaseTest {
         Assert.assertTrue(organizationFolderName.equals(ORGANIZATION_FOLDER_NAME));
     }
 
-    @Test(dependsOnMethods = {"createOrganizationFolderTest"})
-    public void checkOrganizationFolderOnDashBoardTest() {
+    @Test(dependsOnMethods = {"testCreateOrganizationFolder"})
+    public void testCheckOrganizationFolderOnDashBoard() {
         String organizationFolderName = new HomePage(getDriver())
                 .getProjectName();
         Assert.assertTrue(organizationFolderName.equals(ORGANIZATION_FOLDER_NAME));
     }
 
-    @Test(dependsOnMethods = {"createOrganizationFolderTest"})
-    public void checkOrganizationFolderRedirectFromDashboardTest() {
+    @Test(dependsOnMethods = {"testCreateOrganizationFolder"})
+    public void testCheckOrganizationFolderRedirectFromDashboard() {
         String organizationFolderName = new HomePage(getDriver())
                 .openProject(new OrganizationFolderProjectPage(getDriver()))
                 .getProjectName();
 
         Assert.assertTrue(organizationFolderName.equals(ORGANIZATION_FOLDER_NAME));
     }
+
+    @Test(dependsOnMethods = {"testCreateOrganizationFolder"})
+    public void testCreateOrganizationFolderFromOtherExisting() {
+        String newOrganizationFolderName = getUniqueName(ORGANIZATION_FOLDER_NAME);
+
+        String organizationFolderName = new HomePage(getDriver())
+                .createNewJob()
+                .setNameJob(newOrganizationFolderName)
+                .setFromExisting(ORGANIZATION_FOLDER_NAME)
+                .clickOK(new OrganizationFolderConfigPage(getDriver()))
+                .clickSaveButton()
+                .getProjectName();
+
+        Assert.assertTrue(newOrganizationFolderName.equals(organizationFolderName));
+    }
+
 }
