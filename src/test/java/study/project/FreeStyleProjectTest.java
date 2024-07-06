@@ -4,6 +4,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 import study.project.model.CreateitemPage;
 import study.project.model.FreeStyleProjectConfigPage;
+import study.project.model.FreeStyleProjectPage;
 import study.project.model.HomePage;
 import study.project.runner.BaseTest;
 
@@ -115,5 +116,15 @@ public class FreeStyleProjectTest extends BaseTest {
                 .getProjectName();
 
         Assert.assertTrue(newFreeStyleProjectName.equals(freeStyleProjectName));
+    }
+
+    @Test(dependsOnMethods = {"testCreateFreeStyleProject"})
+    public void testFreeStyleProjectAddDescription() {
+        String description = new HomePage(getDriver())
+                .openProject(new FreeStyleProjectPage(getDriver()))
+                .addOrEditDescription("description " + FREESTYLE_PROJECT_NAME, new FreeStyleProjectPage(getDriver()))
+                .getDescription();
+
+        Assert.assertEquals(description,"description " + FREESTYLE_PROJECT_NAME);
     }
 }
