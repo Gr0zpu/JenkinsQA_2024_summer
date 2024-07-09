@@ -3,6 +3,7 @@ package study.project.model.base;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import study.project.model.FreeStyleProjectPage;
 
 public abstract class BaseProjectPage<T extends BasePage> extends BasePage {
     @FindBy(tagName = "h1")
@@ -56,6 +57,25 @@ public abstract class BaseProjectPage<T extends BasePage> extends BasePage {
         confirmRename.click();
 
         return page;
+    }
+
+    public FreeStyleProjectPage clickRename() {
+        renameProject.click();
+
+        return new FreeStyleProjectPage(getDriver());
+    }
+
+    public FreeStyleProjectPage setName(String name) {
+        inputNewName.clear();
+        inputNewName.sendKeys(name);
+
+        return new FreeStyleProjectPage(getDriver());
+    }
+
+    public FreeStyleProjectPage clickSaveName() {
+        confirmRename.click();
+
+        return new FreeStyleProjectPage(getDriver());
     }
 
     public String getDescription() {

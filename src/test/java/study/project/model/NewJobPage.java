@@ -50,7 +50,7 @@ public class NewJobPage extends BasePage {
     }
 
     public HomePage goHomePage() {
-        return new HomePage(driver);
+        return new HomePage(getDriver());
     }
 
     public String itemRequiredMessage() {

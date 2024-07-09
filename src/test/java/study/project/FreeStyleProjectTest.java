@@ -7,6 +7,7 @@ import study.project.model.FreeStyleProjectConfigPage;
 import study.project.model.FreeStyleProjectPage;
 import study.project.model.HomePage;
 import study.project.runner.BaseTest;
+import study.project.runner.TestUtils;
 
 import static study.project.runner.TestUtils.getUniqueName;
 
@@ -14,6 +15,19 @@ public class FreeStyleProjectTest extends BaseTest {
     private static final String FREESTYLE_PROJECT_NAME = getUniqueName("freeStyleProject");
     private static final String RENAME_FREESTYLE_PROJECT_NAME = getUniqueName("reNameFreeStyleProject");
 
+    @Test
+    public void testRenameFreeStyleProject() {
+        TestUtils.createFreestyleProject(this, FREESTYLE_PROJECT_NAME);
+        String projectName = new HomePage(getDriver())
+                .openProject(new FreeStyleProjectPage(getDriver()))
+                .clickRename()
+                .setName(RENAME_FREESTYLE_PROJECT_NAME)
+                .clickSaveName()
+                .getProjectName();
+
+
+        Assert.assertEquals(projectName,RENAME_FREESTYLE_PROJECT_NAME);
+    }
     @Test
     public void testCreateFreeStyleProject() {
         String compleateName = new HomePage(getDriver())
@@ -121,13 +135,5 @@ public class FreeStyleProjectTest extends BaseTest {
         Assert.assertEquals(description,"description " + FREESTYLE_PROJECT_NAME);
     }
 
-    @Test(dependsOnMethods = {"testCreateFreeStyleProject"})
-    public void testRenameFreeStyleProject() {
-        String projectName = new HomePage(getDriver())
-                .openProject(new FreeStyleProjectPage(getDriver()))
-                .rename(RENAME_FREESTYLE_PROJECT_NAME, new FreeStyleProjectPage(getDriver()))
-                .getProjectName();
 
-        Assert.assertEquals(projectName,RENAME_FREESTYLE_PROJECT_NAME);
-    }
 }
