@@ -12,14 +12,7 @@ import static study.project.runner.TestUtils.getUniqueName;
 
 public class FreeStyleProjectTest extends BaseTest {
     private static final String FREESTYLE_PROJECT_NAME = getUniqueName("freeStyleProject");
-
-    @Test
-    public void testOpenPage() {
-        String pageTitle = new HomePage(getDriver()).createNewJob().getPageTitle();
-        System.out.println(pageTitle);
-
-        Assert.assertEquals(pageTitle, "Enter an item name");
-    }
+    private static final String RENAME_FREESTYLE_PROJECT_NAME = getUniqueName("reNameFreeStyleProject");
 
     @Test
     public void testCreateFreeStyleProject() {
@@ -126,5 +119,15 @@ public class FreeStyleProjectTest extends BaseTest {
                 .getDescription();
 
         Assert.assertEquals(description,"description " + FREESTYLE_PROJECT_NAME);
+    }
+
+    @Test(dependsOnMethods = {"testCreateFreeStyleProject"})
+    public void testRenameFreeStyleProject() {
+        String projectName = new HomePage(getDriver())
+                .openProject(new FreeStyleProjectPage(getDriver()))
+                .rename(RENAME_FREESTYLE_PROJECT_NAME, new FreeStyleProjectPage(getDriver()))
+                .getProjectName();
+
+        Assert.assertEquals(projectName,RENAME_FREESTYLE_PROJECT_NAME);
     }
 }

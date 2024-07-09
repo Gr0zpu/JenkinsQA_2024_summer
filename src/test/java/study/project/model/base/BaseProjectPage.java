@@ -23,6 +23,15 @@ public abstract class BaseProjectPage<T extends BasePage> extends BasePage {
     @FindBy(xpath = "//div[@id='description']//div")
     private WebElement description;
 
+    @FindBy(xpath = "//*[contains(text(), 'Rename')]/..")
+    private WebElement renameProject;
+
+    @FindBy(xpath = "//input[@name='newName']")
+    WebElement inputNewName;
+
+    @FindBy(xpath = "//*[@name='Submit']")
+    WebElement confirmRename;
+
     public BaseProjectPage(WebDriver driver) {
         super(driver);
     }
@@ -36,6 +45,15 @@ public abstract class BaseProjectPage<T extends BasePage> extends BasePage {
         descriptionButton.click();
         inputDescription.sendKeys(description);
         saveDescription.click();
+
+        return page;
+    }
+
+    public <T> T rename (String newName, T page){
+        renameProject.click();
+        inputNewName.clear();
+        inputNewName.sendKeys(newName);
+        confirmRename.click();
 
         return page;
     }
