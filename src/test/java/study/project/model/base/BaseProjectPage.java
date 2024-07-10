@@ -72,10 +72,10 @@ public abstract class BaseProjectPage<T extends BasePage> extends BasePage {
         return new FreeStyleProjectPage(getDriver());
     }
 
-    public FreeStyleProjectPage clickSaveName() {
+    public <T> T clickSaveName(T page) {
         confirmRename.click();
 
-        return new FreeStyleProjectPage(getDriver());
+        return page;
     }
 
     public String getDescription() {

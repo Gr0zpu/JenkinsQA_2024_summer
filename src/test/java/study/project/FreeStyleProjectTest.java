@@ -16,19 +16,6 @@ public class FreeStyleProjectTest extends BaseTest {
     private static final String RENAME_FREESTYLE_PROJECT_NAME = getUniqueName("reNameFreeStyleProject");
 
     @Test
-    public void testRenameFreeStyleProject() {
-        TestUtils.createFreestyleProject(this, FREESTYLE_PROJECT_NAME);
-        String projectName = new HomePage(getDriver())
-                .openProject(new FreeStyleProjectPage(getDriver()))
-                .clickRename()
-                .setName(RENAME_FREESTYLE_PROJECT_NAME)
-                .clickSaveName()
-                .getProjectName();
-
-
-        Assert.assertEquals(projectName,RENAME_FREESTYLE_PROJECT_NAME);
-    }
-    @Test
     public void testCreateFreeStyleProject() {
         String compleateName = new HomePage(getDriver())
                 .createNewJob()
@@ -63,7 +50,6 @@ public class FreeStyleProjectTest extends BaseTest {
                 .getErrorMessage();
 
         Assert.assertTrue(errorText.contains("is an unsafe character"));
-
     }
 
     @Test
@@ -135,5 +121,59 @@ public class FreeStyleProjectTest extends BaseTest {
         Assert.assertEquals(description,"description " + FREESTYLE_PROJECT_NAME);
     }
 
+    @Test
+    public void testRenameFreeStyleProject() {
+        TestUtils.createFreestyleProject(this, FREESTYLE_PROJECT_NAME);
 
+        String projectName = new HomePage(getDriver())
+                .openProject(new FreeStyleProjectPage(getDriver()))
+                .clickRename()
+                .setName(RENAME_FREESTYLE_PROJECT_NAME)
+                .clickSaveName(new FreeStyleProjectPage(getDriver()))
+                .getProjectName();
+
+        Assert.assertEquals(projectName,RENAME_FREESTYLE_PROJECT_NAME);
+    }
+
+    @Test
+    public void testRenameFreeStyleProjectContainSpecialSymbol(){
+        TestUtils.createFreestyleProject(this, FREESTYLE_PROJECT_NAME);
+
+        String errorText = new HomePage(getDriver())
+                .openProject(new FreeStyleProjectPage(getDriver()))
+                .clickRename()
+                .setName(RENAME_FREESTYLE_PROJECT_NAME + "/")
+                .clickSaveName(new CreateitemPage(getDriver()))
+                .getErrorMessage();
+
+        Assert.assertTrue(errorText.contains("is an unsafe character"));
+    }
+
+    @Test
+    public void testRenameFreeStyleProjectWithSpacesName() {
+        TestUtils.createFreestyleProject(this, FREESTYLE_PROJECT_NAME);
+
+        String errorText = new HomePage(getDriver())
+                .openProject(new FreeStyleProjectPage(getDriver()))
+                .clickRename()
+                .setName("   ")
+                .clickSaveName(new CreateitemPage(getDriver()))
+                .getErrorMessage();
+
+        Assert.assertTrue(errorText.contains("No name is specified"));
+    }
+
+    @Test(enabled = false)
+    public void testRenameFreeStyleProjectWithNameLonger255Symbols() {
+        TestUtils.createFreestyleProject(this, FREESTYLE_PROJECT_NAME);
+
+        String projectName = new HomePage(getDriver())
+                .openProject(new FreeStyleProjectPage(getDriver()))
+                .clickRename()
+                .setName("a".repeat(260))
+                .clickSaveName(new FreeStyleProjectPage(getDriver()))
+                .getProjectName();
+
+        Assert.assertTrue(projectName.equals("a".repeat(260)));
+    }
 }
