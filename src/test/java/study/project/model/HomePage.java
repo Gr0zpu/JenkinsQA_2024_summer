@@ -25,7 +25,7 @@ public class HomePage extends BasePage {
 
     public NewJobPage createNewJob() {
         newItem.click();
-        return new NewJobPage(driver);
+        return new NewJobPage(getDriver());
     }
 
     public String getProjectName() {

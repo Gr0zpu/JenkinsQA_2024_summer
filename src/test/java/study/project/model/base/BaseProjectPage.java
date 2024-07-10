@@ -3,6 +3,7 @@ package study.project.model.base;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import study.project.model.FreeStyleProjectPage;
 
 public abstract class BaseProjectPage<T extends BasePage> extends BasePage {
     @FindBy(tagName = "h1")
@@ -23,6 +24,15 @@ public abstract class BaseProjectPage<T extends BasePage> extends BasePage {
     @FindBy(xpath = "//div[@id='description']//div")
     private WebElement description;
 
+    @FindBy(xpath = "//*[contains(text(), 'Rename')]/..")
+    private WebElement renameProject;
+
+    @FindBy(xpath = "//input[@name='newName']")
+    WebElement inputNewName;
+
+    @FindBy(xpath = "//*[@name='Submit']")
+    WebElement confirmRename;
+
     public BaseProjectPage(WebDriver driver) {
         super(driver);
     }
@@ -36,6 +46,34 @@ public abstract class BaseProjectPage<T extends BasePage> extends BasePage {
         descriptionButton.click();
         inputDescription.sendKeys(description);
         saveDescription.click();
+
+        return page;
+    }
+
+    public <T> T rename (String newName, T page){
+        renameProject.click();
+        inputNewName.clear();
+        inputNewName.sendKeys(newName);
+        confirmRename.click();
+
+        return page;
+    }
+
+    public FreeStyleProjectPage clickRename() {
+        renameProject.click();
+
+        return new FreeStyleProjectPage(getDriver());
+    }
+
+    public FreeStyleProjectPage setName(String name) {
+        inputNewName.clear();
+        inputNewName.sendKeys(name);
+
+        return new FreeStyleProjectPage(getDriver());
+    }
+
+    public <T> T clickSaveName(T page) {
+        confirmRename.click();
 
         return page;
     }
