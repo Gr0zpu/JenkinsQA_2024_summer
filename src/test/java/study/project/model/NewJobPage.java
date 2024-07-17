@@ -66,6 +66,7 @@ public class NewJobPage extends BasePage {
     }
     public NewJobPage selectFreeStyleProject() {
         choiceFreeStyleProject.click();
+        getWait10();
         return this;
     }
 
@@ -100,6 +101,7 @@ public class NewJobPage extends BasePage {
     }
 
     public <T> T clickOK(T page) {
+        getWait5();
         okButton.click();
         return page;
     }

@@ -176,4 +176,16 @@ public class FreeStyleProjectTest extends BaseTest {
 
         Assert.assertTrue(projectName.equals("a".repeat(260)));
     }
+
+    @Test
+    public void testDisableFreeStyleProject() {
+        TestUtils.createFreestyleProject(this, FREESTYLE_PROJECT_NAME);
+
+        String projectMessage = new HomePage(getDriver())
+                .openProject(new FreeStyleProjectPage(getDriver()))
+                .disableFreeStyleProject()
+                .getDisableProjectMessage();
+
+        Assert.assertTrue(projectMessage.contains("This project is currently disabled"));
+    }
 }
