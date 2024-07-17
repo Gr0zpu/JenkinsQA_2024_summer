@@ -181,11 +181,21 @@ public class FreeStyleProjectTest extends BaseTest {
     public void testDisableFreeStyleProject() {
         TestUtils.createFreestyleProject(this, FREESTYLE_PROJECT_NAME);
 
-        String projectMessage = new HomePage(getDriver())
+        String projectStatus = new HomePage(getDriver())
                 .openProject(new FreeStyleProjectPage(getDriver()))
                 .disableFreeStyleProject()
-                .getDisableProjectMessage();
+                .getProjectStatus();
 
-        Assert.assertTrue(projectMessage.contains("This project is currently disabled"));
+        Assert.assertTrue(projectStatus.equals("Disable"));
+    }
+
+    @Test(dependsOnMethods = {"testDisableFreeStyleProject"})
+    public void testEnableFreeStyleProject() {
+        String projectStatus = new HomePage(getDriver())
+                .openProject(new FreeStyleProjectPage(getDriver()))
+                .enableFreeStyleProject()
+                .getProjectStatus();
+
+        Assert.assertTrue(projectStatus.equals("Enable"));
     }
 }
