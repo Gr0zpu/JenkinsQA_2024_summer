@@ -176,4 +176,26 @@ public class FreeStyleProjectTest extends BaseTest {
 
         Assert.assertTrue(projectName.equals("a".repeat(260)));
     }
+
+    @Test
+    public void testDisableFreeStyleProject() {
+        TestUtils.createFreestyleProject(this, FREESTYLE_PROJECT_NAME);
+
+        String projectStatus = new HomePage(getDriver())
+                .openProject(new FreeStyleProjectPage(getDriver()))
+                .disableFreeStyleProject()
+                .getProjectStatus();
+
+        Assert.assertTrue(projectStatus.equals("Disable"));
+    }
+
+    @Test(dependsOnMethods = {"testDisableFreeStyleProject"})
+    public void testEnableFreeStyleProject() {
+        String projectStatus = new HomePage(getDriver())
+                .openProject(new FreeStyleProjectPage(getDriver()))
+                .enableFreeStyleProject()
+                .getProjectStatus();
+
+        Assert.assertTrue(projectStatus.equals("Enable"));
+    }
 }
