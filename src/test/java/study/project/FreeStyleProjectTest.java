@@ -198,4 +198,39 @@ public class FreeStyleProjectTest extends BaseTest {
 
         Assert.assertTrue(projectStatus.equals("Enable"));
     }
+
+    @Test
+    public void testDeleteFreestyleProject() {
+       TestUtils.createFreestyleProject(this, FREESTYLE_PROJECT_NAME);
+
+       String welcomeText =  new HomePage(getDriver())
+                .openProject(new FreeStyleProjectPage(getDriver()))
+                .deleteProject()
+                .getWelcomeText();
+
+       Assert.assertTrue(welcomeText.equals("Welcome to Jenkins!"));
+
+    }
+
+    @Test
+    public void testDeleteFreeStyleProjectFromDashboard() {
+        TestUtils.createFreestyleProject(this, FREESTYLE_PROJECT_NAME);
+
+        String welcomeText = new HomePage(getDriver())
+                .deleteProject()
+                .getWelcomeText();
+
+        Assert.assertTrue(welcomeText.equals("Welcome to Jenkins!"));
+    }
+
+    @Test
+    public void testDeleteFreeStyleProjectFromBreadCrumbles() {
+        TestUtils.createFreestyleProject(this, FREESTYLE_PROJECT_NAME);
+
+        String welcomeText = new HomePage(getDriver())
+                .openProject(new FreeStyleProjectPage(getDriver()))
+                .deleteFromBreadCrumble().getWelcomeText();
+
+        Assert.assertTrue(welcomeText.equals("Welcome to Jenkins!"));
+    }
 }
