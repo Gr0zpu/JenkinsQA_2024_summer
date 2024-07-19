@@ -6,9 +6,12 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.FindBys;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import study.project.model.FreeStyleProjectPage;
 import study.project.model.HomePage;
 
+import java.time.Duration;
 import java.util.List;
 
 public abstract class BaseProjectPage<T extends BasePage> extends BasePage {
@@ -123,12 +126,17 @@ public abstract class BaseProjectPage<T extends BasePage> extends BasePage {
         Actions actions = new Actions(getDriver());
         actions.moveToElement(currentProject).perform();
 
-        getWait10();
+        WebDriverWait wait = new WebDriverWait(getDriver(), Duration.ofSeconds(10));
+        WebElement dropdownButton = wait.until(ExpectedConditions.elementToBeClickable(
+                currentProject.findElement(By.className("jenkins-menu-dropdown-chevron"))));
+        dropdownButton.click();
 
-        currentProject.findElement(By.className("jenkins-menu-dropdown-chevron")).click();
-        currentProject.findElement(By.xpath("//button[contains(normalize-space(), 'Delete')]")).click();
+        WebElement deleteButton = wait.until(ExpectedConditions.elementToBeClickable(
+                currentProject.findElement(By.xpath("//button[contains(normalize-space(), 'Delete')]"))));
+        deleteButton.click();
 
-        confirmDelete.click();
+        WebElement confirmButton = wait.until(ExpectedConditions.elementToBeClickable(confirmDelete));
+        confirmButton.click();
 
         return new HomePage(getDriver());
     }
