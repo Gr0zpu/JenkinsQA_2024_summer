@@ -54,7 +54,7 @@ public class HomePage extends BasePage {
     public HomePage deleteProject() {
         Actions actions = new Actions(getDriver());
         actions.moveToElement(project).perform();
-        getWait10();
+        getWait60();
         projectDropDownMenu.click();
         delete.click();
         confirmDelete.click();
