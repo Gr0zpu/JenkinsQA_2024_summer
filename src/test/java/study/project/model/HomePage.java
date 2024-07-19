@@ -26,7 +26,7 @@ public class HomePage extends BasePage {
     @FindBy(id = "search-box")
     private WebElement searchBox;
 
-    @FindBy(xpath = "//button[contains(normalize-space(), 'Delete')]")
+    @FindBy(css = "button[href $= '/doDelete']")
     private WebElement delete;
 
     @FindBy(xpath = "//*[contains(text(), 'Yes')]")
