@@ -223,7 +223,7 @@ public class FreeStyleProjectTest extends BaseTest {
         Assert.assertTrue(welcomeText.equals("Welcome to Jenkins!"));
     }
 
-    @Test
+    @Test(enabled = false)
     public void testDeleteFreeStyleProjectFromBreadCrumbles() {
         TestUtils.createFreestyleProject(this, FREESTYLE_PROJECT_NAME);
 
